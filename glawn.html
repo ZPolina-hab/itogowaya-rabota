@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Agency</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='r.css') }}">
+    <script src="{{ url_for('static', filename='main.js') }}" defer></script>
+    <style>
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Model Agency</div>
+        <nav class="menu">
+            <a href="#eee" class="menu-item">Главная</a>
+            <a href="#about" class="menu-item">О нас</a>
+            <a href="#Afi" class="menu-item">Афиша</a>
+            <a href="#Mod" class="menu-item">Модели</a>
+            <a href="#Cast" class="menu-item">Кастинг</a>
+            <a href="#Cont" class="menu-item">Контакты</a>
+            {% if session.get('user_id') %}
+                <span class="menu-item">{{ session.get('user_name') }}</span>
+                <a href="{{ url_for('logout') }}" class="menu-item">Выйти</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="menu-item">Войти</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div style="position:fixed; top:80px; right:20px; z-index:2000;">
+                {% for category, message in messages %}
+                    <div style="background:{{ '#4caf50' if category=='success' else '#ff4d4d' if category!='info' else '#2196f3' }}; color:#fff; padding:12px 20px; border-radius:6px; margin-bottom:8px; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+<br>
+    <br>
+    <br>
+    <section class="container-1" id="eee">
+        <br>
+        <br>
+        <div class="container_1_1">
+            <h1 class="bl">Искусcтво, Стиль, Профессионализм</h1>
+            <p class="text_2_1">Централизованная цифровая платформа для презентации талантов, организации показов и взаимодействия с индустрией моды.</p>
+            <a href="#about" class="button">Узнать больше</a>
+        </div>
+    </section>
+
+    <section class="container-3" id="about">
+        <div class="container_2_2"><h2 class="section-title-alt">О нашем агентстве</h2>
+            <p class="text_2">Мы объединяем таланты и бренды, создавая уникальные проекты на стыке моды и искусства</p></div>
+        <div class="container_2_3">
+            <div class="container_2_4"><h3 class="text_1">История</h3><p class="text_2">Более 10 лет на рынке fashion-индустрии. Прошли путь от локальной студии до международного агентства с представительством в 5 странах.</p></div>
+            <div class="container_2_4"><h3 class="text_1">Миссия</h3><p class="text_2">Формировать новые стандарты эстетики, поддерживать творческий рост моделей и обеспечивать заказчикам безупречный сервис.</p></div>
+            <div class="container_2_4"><h3 class="text_1">Достижения</h3><p class="text_2">300+ успешных проектов с ведущими брендами, 50+ выпускников, вошедших в топ-лист мировых подиумов.</p></div>
+        </div>
+    </section>
+
+    <section class="container-3" id="Afi">
+        <div class="container_3_2"><h2 class="section-title-alt">Афиша мероприятий</h2></div>
+        <div class="cards-row">
+            <div class="card"><div class="card-image_1"></div><div class="card-date">15 Апр 2026</div><h3 class="card-title">Весенний Показ "BLOOM"</h3><p class="card-description">Презентация новой коллекции весна-лето от молодых дизайнеров.</p><a href="{{ url_for('book') }}" class="button" style="padding:10px 20px; font-size:14px; display:inline-block; text-align:center; text-decoration:none;">Купить билет</a></div>
+            <div class="card"><div class="card-image_2"></div><div class="card-date">22 Май 2026</div><h3 class="card-title">Fashion Week Moscow</h3><p class="card-description">Международный показ с участием топ-брендов.</p><a href="{{ url_for('book') }}" class="button" style="padding:10px 20px; font-size:14px; display:inline-block; text-align:center; text-decoration:none;">Купить билет</a></div>
+            <div class="card"><div class="card-image_3"></div><div class="card-date">10 Июн 2026</div><h3 class="card-title">Благотворительный Гала-Вечер</h3><p class="card-description_3">Сбор средств на поддержку талантов.</p><a href="{{ url_for('book') }}" class="button" style="padding:10px 20px; font-size:14px; display:inline-block; text-align:center; text-decoration:none;">Купить билет</a></div>
+        </div>
+    </section>
+
+    <section class="catalog-section" id="Mod">
+         <div class="container_2s_2" style=" height: 100px;"><h2 class="section-title-alt">Наши модели</h2></div>
+        <div class="filters">
+            <div class="filter-wrapper"><button class="filter-btn">Возраст</button><div class="dropdown"><div class="dropdown-item">18-20 лет</div><div class="dropdown-item">21-23 года</div><div class="dropdown-item">24-26 лет</div><div class="dropdown-item">27-30 лет</div><div class="dropdown-item">30+ лет</div></div></div>
+            <div class="filter-wrapper"><button class="filter-btn">Рост</button><div class="dropdown"><div class="dropdown-item">160-165 см</div><div class="dropdown-item">166-170 см</div><div class="dropdown-item">171-175 см</div><div class="dropdown-item">176-180 см</div><div class="dropdown-item">181-185 см</div><div class="dropdown-item">186+ см</div></div></div>
+            <div class="filter-wrapper"><button class="filter-btn">Цвет волос</button><div class="dropdown"><div class="dropdown-item">Светлые</div><div class="dropdown-item">Темные</div><div class="dropdown-item">Шатен</div><div class="dropdown-item">Рыжие</div><div class="dropdown-item">Седые</div></div></div>
+            <div class="filter-wrapper"><button class="filter-btn">Цвет глаз</button><div class="dropdown"><div class="dropdown-item">Голубые</div><div class="dropdown-item">Зеленые</div><div class="dropdown-item">Карие</div><div class="dropdown-item">Серые</div><div class="dropdown-item">Ореховые</div></div></div>
+        </div>
+        <div class="models-grid">
+            <div class="model-card"><div class="model-image_1"><span class="model-placeholder"></span></div><div class="model-info"><span class="gender-badge female">Женская</span><h3 class="model-name">Алина В.</h3><p class="model-details">21 год | 178 см<br>Светлые волосы | Голубые глаза</p></div></div>
+            <div class="model-card"><div class="model-image_2"><span class="model-placeholder"></span></div><div class="model-info"><span class="gender-badge female">Женская</span><h3 class="model-name">Мария К.</h3><p class="model-details">25 лет | 173 см<br>Темные волосы | Карие глаза</p></div></div>
+            <div class="model-card"><div class="model-image_3"><span class="model-placeholder"></span></div><div class="model-info"><span class="gender-badge male">Мужская</span><h3 class="model-name">Александр П.</h3><p class="model-details">25 лет | 183 см<br>Темные волосы | Карие глаза</p></div></div>
+        </div>
+    </section>
+
+    <section class="container-5">
+        <form class="form_1"><h2 class="form_title">Запрос на подбор моделей</h2><p class="form_subtitle">Заполните форму, и наш менеджер подберёт кандидатуры под ваш проект в течение 24 часов.</p><input type="text" class="form_input" placeholder="Ваше имя / Компания"><input type="email" class="form_input" placeholder="Email"><textarea class="form_textarea" placeholder="Описание проекта"></textarea><button type="submit" class="btn_1">Отправить запрос</button></form>
+    </section>
+
+    <section class="container-6" id="Cast">
+        <h2 class="section-title-alt">Стать моделью</h2>
+        <br>
+        <br>
+        <div class="casting_container">
+            <div class="casting_info">
+                <h3 class="casting_subtitle">Требования к кандидатам</h3>
+                <ul class="casting_list"><li>Возраст: от 16 до 28</li><li>Рост: девушки от 175 см, юноши от 185 см</li><li>Ухоженная кожа, здоровые волосы</li><li>Базовые навыки позирования и дефиле (приветствуется)</li><li>Ответственность и пунктуальность</li></ul>
+                <h3 class="casting_subtitle">Условия сотрудничества</h3>
+                <p class="casting_text">Мы обеспечиваем профессиональное обучение, составление бука, юридическое сопровождение контрактов и регулярное участие в показах и съёмках. Комиссия агентства стандартная, прозрачная и фиксируется в договоре.</p>
+            </div>
+            <form class="casting_form">
+                <div class="form_row"><input type="text" class="form_input_white" placeholder="Имя"><input type="text" class="form_input_white" placeholder="Фамилия"></div>
+                <input type="email" class="form_input_white" placeholder="Email">
+                <input type="tel" class="form_input_white" placeholder="Телефон">
+                <input type="number" class="form_input_white" placeholder="Рост (см)">
+                <input type="number" class="form_input_white" placeholder="Возраст">
+                <a href="{{ url_for('register') }}" class="btn_1 casting-btn" style="display:block; text-align:center; text-decoration:none; padding-top:15px;">Отправить заявку на кастинг</a>
+            </form>
+        </div>
+    </section>
+
+    <section class="container-7" id="Cont">
+        <h2 class="section-title-alt">Контакты</h2>
+        <div class="contacts_wrapper">
+            <div class="contacts_info">
+                <div class="contact_item"><span class="contact_label">Адрес</span><span class="contact_value">г. Йошкар-Ола ул. Московская д.23</span></div>
+                <div class="contact_item"><span class="contact_label">Телефон / Email</span><span class="contact_value"><a href="tel:+78362456789">+7 (8362) 45-67-89</a><br><a href="mailto:info@modelagency.ru" style="color:#555; text-decoration:none;">info@modelagency.ru</a></span></div>
+                <div class="contact_item"><span class="contact_label">Режим работы</span><span class="contact_value">Пн-Пт: 10:00 - 19:00<br>Сб: 11:00 - 16:00</span></div>
+            </div>
+            <form class="contacts_form"><h3 class="casting_subtitle">Отправить сообщение</h3><input type="text" class="form_input_white" placeholder="Ваше имя"><input type="email" class="form_input_white" placeholder="Email"><textarea class="form_textarea_white" placeholder="Сообщение"></textarea><button type="submit" class="btn_1">Отправить</button></form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer_content">
+            <p class="footer_copyright">© 2026 MODEL AGENCY. Все права защищены.</p>
+            <div class="footer_links"><a class="footer_link">Политика конфиденциальности</a></div>
+        </div>
+    </footer>
+</body>
+</html>

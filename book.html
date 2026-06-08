@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бронирование билета</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='r.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Model Agency</div>
+        <nav class="menu">
+            <a href="{{ url_for('index') }}" class="menu-item">Главная</a>
+            {% if session.get('user_id') %}
+                <span class="menu-item">{{ session.get('user_name') }}</span>
+                <a href="{{ url_for('logout') }}" class="menu-item">Выйти</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="container-7-2">
+        <form class="admin_form" method="POST" style="max-width: 600px;">
+            {{ form.hidden_tag() }}
+            <h2 class="admin_title">Оплата билета</h2>
+
+            <div class="seats-grid" style="margin: 20px 0;">
+                <div class="seat" data-seat="A1">A1</div>
+                <div class="seat" data-seat="A2">A2</div>
+                <div class="seat" data-seat="A3">A3</div>
+                <div class="seat" data-seat="A4">A4</div>
+                <div class="seat" data-seat="A5">A5</div>
+                <div class="seat" data-seat="A6">A6</div>
+            </div>
+
+            {{ form.seats(id="selectedSeatsInput") }}
+            <p class="selected-info" id="seatCounter">Выбрано мест: 0</p>
+
+            <div style="width:100%; margin-top:20px; border-top:1px solid #eee; padding-top:20px;">
+                <h3 class="casting_subtitle" style="text-align:center; margin-bottom:15px;">Данные карты</h3>
+                {{ form.card_number(class="form_input_white", placeholder="0000 0000 0000 0000", autocomplete="cc-number") }}
+                {% for error in form.card_number.errors %}
+                    <span style="color:#ff4d4d; font-size:12px; display:block;">{{ error }}</span>
+                {% endfor %}
+
+                <div style="display:flex; gap:10px; margin-top:10px;">
+                    <div style="flex:1;">{{ form.expiry(class="form_input_white", placeholder="MM/YY", autocomplete="cc-exp") }}</div>
+                    <div style="flex:1;">{{ form.cvv(class="form_input_white", placeholder="CVV", autocomplete="cc-csc") }}</div>
+                </div>
+                {% for error in form.expiry.errors %}
+                    <span style="color:#ff4d4d; font-size:12px; display:block;">{{ error }}</span>
+                {% endfor %}
+                {% for error in form.cvv.errors %}
+                    <span style="color:#ff4d4d; font-size:12px; display:block;">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            {{ form.submit(class="btn_1", style="margin-top:20px;") }}
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <p style="color:{{ '#4caf50' if category=='success' else '#ff4d4d' if category!='info' else '#2196f3' }}; margin-top:15px; text-align:center; font-weight:bold;">
+                            {{ message }}
+                        </p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </form>
+    </main>
+
+    <footer class="footer">
+        <div class="footer_content">
+            <p class="footer_copyright">© 2026 MODEL AGENCY. Все права защищены.</p>
+            <div class="footer_links"><a class="footer_link">Политика конфиденциальности</a></div>
+        </div>
+    </footer>
+
+    <script>
+        let selected = [];
+        document.querySelectorAll('.seat').forEach(seat => {
+            seat.addEventListener('click', () => {
+                if (seat.classList.contains('occupied')) return;
+                seat.classList.toggle('selected');
+                const id = seat.getAttribute('data-seat');
+                if (seat.classList.contains('selected')) {
+                    selected.push(id);
+                } else {
+                    selected = selected.filter(s => s !== id);
+                }
+                document.getElementById('seatCounter').textContent = `Выбрано мест: ${selected.length}`;
+                document.getElementById('selectedSeatsInput').value = selected.join(',');
+            });
+        });
+    </script>
+</body>
+</html>
